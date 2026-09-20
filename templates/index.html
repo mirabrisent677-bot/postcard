@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>پیامی برای عاشقان شاهزاده رضا پهلوی</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <main class="page">
+        <div class="background-circle circle-one"></div>
+        <div class="background-circle circle-two"></div>
+
+        <section class="postcard">
+            <div class="card-decoration top-decoration">✦</div>
+
+            <div class="card-content">
+                <div class="icon">💌</div>
+
+                <h1>اگه شاه رو دوست داری روی این کلیک کن</h1>
+                <p class="subtitle">یک مژده امیدوار کننده برای عاشقان شاهزاده</p>
+
+                <button id="messageButton" onclick="showMessage()">
+                    <span>دریافت پیام</span>
+                    <span class="arrow">←</span>
+                </button>
+
+                <!-- عکس و پیام با هم نمایش داده می‌شوند -->
+                <div id="revealBox" class="reveal-box">
+                    <img
+                        class="postcard-image"
+                        src="{{ url_for('static', filename='images/postcard.png') }}"
+                        alt="تصویر کارت پستال"
+                    >
+
+                    <div class="message-box">
+                        <div class="message-line"></div>
+                        <p id="messageText"></p>
+                        <div class="heart">♥</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card-decoration bottom-decoration">✦</div>
+        </section>
+
+        <p class="footer">یک کارت پستال دیجیتال ✨</p>
+    </main>
+
+    <script>
+        const message = {{ message | tojson }};
+
+        function showMessage() {
+            const button = document.getElementById("messageButton");
+            const revealBox = document.getElementById("revealBox");
+            const messageText = document.getElementById("messageText");
+
+            button.disabled = true;
+            button.classList.add("hide-button");
+
+            setTimeout(() => {
+                revealBox.classList.add("show-reveal");
+                typeMessage(messageText, message);
+            }, 300);
+        }
+
+        function typeMessage(element, text) {
+            let index = 0;
+            const speed = 35;
+            element.textContent = "";
+
+            function type() {
+                if (index < text.length) {
+                    element.textContent += text.charAt(index);
+                    index++;
+                    setTimeout(type, speed);
+                }
+            }
+
+            type();
+        }
+    </script>
+</body>
+</html>
